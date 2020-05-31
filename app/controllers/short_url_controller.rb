@@ -6,7 +6,6 @@ class ShortUrlController < ActionController::API
       service = ShortUrlService.new
       url = service.getUrlFromCode(params[:code])
       render :json => {
-          'code' => params[:code],
           'url' => url
       }
     rescue ActiveRecord::RecordNotFound => e
@@ -20,8 +19,7 @@ class ShortUrlController < ActionController::API
     service = ShortUrlService.new
     code = service.createShortUrl(params[:url])
     render :json => {
-        'url' => params[:url],
-        'code' => code
+        'short_url' => request.base_url + "/" + code
     }
   end
 end

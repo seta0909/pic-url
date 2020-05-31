@@ -1,24 +1,22 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
-
-Things you may want to cover:
-
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+develop env setup
+* run service with docker-compose 
+```bash
+docker-compose up -d
+```
+* wait a minutes check http://localhost:3000 you can see a page
+* migration db
+```bash
+docker-compose exec ruby bash
+rake db:migrate
+```
+* check short url api work
+```bash
+POST http://localhost:3000/shortUrl
+Request body
+{
+  "url": "https://www.google.com",
+  "code": "0000A"
+}
+```

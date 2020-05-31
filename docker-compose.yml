@@ -1,0 +1,42 @@
+version: '3'
+services:
+  mysql:
+    image: "mysql:5.7"
+    ports:
+      - "3306:3306"
+    restart: always
+    volumes:
+      - ./build/mysql/data:/docker-entrypoint-initdb.d
+    environment:
+      MYSQL_ROOT_PASSWORD: local
+      MYSQL_DATABASE: 'local'
+      MYSQL_USER: 'root'
+      MYSQL_PASSWORD: 'local'
+    networks:
+      - vpc
+  ruby:
+    image: "ruby:2.7.1"
+    build: ./build/ruby
+    command: bash -c "bundle install && rails server -b 0.0.0.0"
+    ports:
+      - "3000:3000"
+    networks:
+      - vpc
+    volumes:
+      - ./:/code
+    depends_on:
+      - "mysql"
+  redis:
+    image: redis:5-alpine
+    environment:
+      - ALLOW_EMPTY_PASSWORD=yes
+    ports:
+      - '6379:6379'
+    restart: always
+    volumes:
+      - ./build/redis/data:/data
+    networks:
+      - vpc
+networks:
+  vpc:
+    driver: "bridge"

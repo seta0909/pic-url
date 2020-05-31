@@ -9,6 +9,7 @@ docker-compose up -d
 * migration db
 ```bash
 docker-compose exec ruby bash
+bundle
 rake db:migrate
 ```
 * check short url api work

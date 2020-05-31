@@ -22,4 +22,10 @@ class ShortUrlController < ActionController::API
         'short_url' => request.base_url + "/" + code
     }
   end
+
+  def redirect
+    service = ShortUrlService.new
+    url = service.getUrlFromCode(params[:code])
+    redirect_to url
+  end
 end
